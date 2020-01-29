@@ -39,8 +39,8 @@ class VerticalScaleWidget(QtWidgets.QWidget):
         plotLayout = QtWidgets.QGridLayout()
         plotLayout.setSpacing(0)
         plotLayout.setContentsMargins(0, 0, 0, 0)
-        plotLayout.addWidget(self.titleWidget, 0, 0)
-        plotLayout.addWidget(self.scaleBar, 0, 1)
+        plotLayout.addWidget(self.titleWidget, 0, 1)
+        plotLayout.addWidget(self.scaleBar, 0, 0)
 
         self.setLayout(plotLayout)
 

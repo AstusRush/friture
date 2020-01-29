@@ -153,7 +153,7 @@ class CanvasWidget(QtWidgets.QWidget):
         if self.ruler:
             w = self.width()
             h = self.height()
-            painter.setPen(QtGui.QPen(QtGui.QColor(QtCore.Qt.black)))
+            painter.setPen(QtGui.QPen(QtGui.QColor(QtCore.Qt.green)))
             painter.drawLine(self.mousex, 0, self.mousex, h)
             painter.drawLine(0, self.mousey, w, self.mousey)
 

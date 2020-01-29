@@ -24,12 +24,64 @@ from friture.plotting.scaleWidget import VerticalScaleWidget, HorizontalScaleWid
 from friture.plotting.scaleDivision import ScaleDivision
 from friture.plotting.coordinateTransform import CoordinateTransform
 from friture.plotting.canvasWidget import CanvasWidget
+import math
 
 # The peak decay rates (magic goes here :).
 PEAK_DECAY_RATE = 1.0 - 3E-6
 # Number of cycles the peak stays on hold before fall-off.
 PEAK_FALLOFF_COUNT = 32  # default : 16
 
+class Note(float):
+    def __init__(self,a,b):
+        float.__init__(a)
+        self.Name = b
+    def __new__(self,a,b):
+        return float.__new__(self, a)
+
+Notes = {"C":16.35,"C#/Db":17.32,"D":18.35,"D#/Eb":19.45,"E":20.6,"F":21.83,"F#/Gb":23.12,"G":24.5,"G#/Ab":25.96,"A":27.5,"A#/B":29.14,"H":30.87}
+AllNotes = {}
+for i,v in Notes.items():
+    c = 0
+    while c <=11:
+        AllNotes[i+" %d "%(c)] = v*2**c
+        c+=1
+FrequencyList = [Note(0.0," "),Note(100000000.0," ")]
+for i,v in AllNotes.items():
+    FrequencyList.append(Note(v,i))
+FrequencyList.sort()
+
+def tickFormatter(value, digits):
+    #if value >= 1e3:
+    #    label = "%gk" % (value / 1e3)
+    #else:
+    #    label = "%d" % (value)
+    #Notes = {"C":16.35,"D":18.35,"E":20.6,"F":21.83,"G":24.5,"A":27.5,"H":30.87}
+    for i,v in Notes.items():
+        if value == v:
+            return i+"0"
+    n = int(round(value/Notes["C"]))
+    if (n & (n-1) == 0) and n != 0:
+        label = "C%d" % math.log(n, 2)
+    else:
+        n = int(round(value/Notes["F"]))
+        if (n & (n-1) == 0) and n != 0:
+            label = "F%d" % math.log(n, 2)
+        else:
+            label = " "
+    return label
+
+def TrackerFormatter(x,y):
+    # Original: lambda x, y: "%d Hz, %.1f dB" % (x, y)
+    Label = " %.2f Hz, %d dB" % (x, y)
+    try:
+        for i in range(1,len(FrequencyList)-2):
+            lb = FrequencyList[i]-(FrequencyList[i]-FrequencyList[i-1])/2
+            ub = FrequencyList[i]+(FrequencyList[i+1]-FrequencyList[i])/2
+            if lb < x and x < ub :
+                return Label+", "+FrequencyList[i].Name
+    except:
+        pass
+    return Label
 
 class HistogramItem:
 
@@ -306,7 +358,8 @@ class HistPlot(QtWidgets.QWidget):
         self.horizontalScale.setTitle("Frequency (Hz)")
 
         self.canvasWidget = CanvasWidget(self, self.verticalScaleTransform, self.horizontalScaleTransform)
-        self.canvasWidget.setTrackerFormatter(lambda x, y: "%d Hz, %.1f dB" % (x, y))
+        #self.canvasWidget.setTrackerFormatter(lambda x, y: "%d Hz, %.1f dB" % (x, y))
+        self.canvasWidget.setTrackerFormatter(TrackerFormatter)
 
         plot_layout = QtWidgets.QGridLayout()
         plot_layout.setSpacing(0)

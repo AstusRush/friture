@@ -21,6 +21,25 @@ import math
 from decimal import Decimal
 import numpy
 
+class Note(float):
+    def __init__(self,a,b):
+        float.__init__(a)
+        self.Name = b
+    def __new__(self,a,b):
+        return float.__new__(self, a)
+
+Notes = {"C":16.35,"C#/Db":17.32,"D":18.35,"D#/Eb":19.45,"E":20.6,"F":21.83,"F#/Gb":23.12,"G":24.5,"G#/Ab":25.96,"A":27.5,"A#/B":29.14,"H":30.87}
+AllNotes = {}
+for i,v in Notes.items():
+    c = 0
+    while c <=11:
+        AllNotes[i+" %d "%(c)] = v*2**c
+        c+=1
+FrequencyList = [Note(0.0," "),Note(100000000.0," ")]
+for i,v in AllNotes.items():
+    FrequencyList.append(Note(v,i))
+FrequencyList.sort()
+
 
 def numberPrecision(x):
     return Decimal(x).adjusted()
@@ -104,13 +123,22 @@ class ScaleDivision(object):
                 trueMin = 1e-20
                 trueMax = max(trueMax, trueMin)
 
-            trueMinLog10 = numpy.log10(trueMin)
-            trueMaxLog10 = numpy.log10(trueMax)
+            #trueMinLog10 = numpy.log10(trueMin)
+            #trueMaxLog10 = numpy.log10(trueMax)
 
-            trueMinLog10Ceil = int(numpy.ceil(trueMinLog10))
-            trueMaxLog10Floor = int(numpy.floor(trueMaxLog10))
+            #trueMinLog10Ceil = int(numpy.ceil(trueMinLog10))
+            #trueMaxLog10Floor = int(numpy.floor(trueMaxLog10))
 
-            ticks = [10 ** i for i in range(trueMinLog10Ceil, trueMaxLog10Floor + 1)]
+            #ticks = [10 ** i for i in range(trueMinLog10Ceil, trueMaxLog10Floor + 1)]
+            ticks = []
+            for i in [16.35]:
+                tick = i
+                while tick < trueMin:
+                    tick *=2
+                while tick < trueMax:
+                    ticks.append(Note(tick,"C"))
+                    tick *=2
+            ticks.sort()
         else:
             base_interval = rang / 6.
 
@@ -142,19 +170,28 @@ class ScaleDivision(object):
         trueMax = max(self.scale_min, self.scale_max)
 
         if self.log:
+            #ticks = []
+            #
+            #standardLogTicks = [2, 3, 4, 5, 6, 7, 8, 9]
+            #
+            #for a in standardLogTicks:
+            #    if a * majorTicks[0] / 10. >= trueMin:
+            #        ticks.append(a * majorTicks[0] / 10.)
+            #
+            #ticks += [a * x for a in standardLogTicks for x in majorTicks]
+            #
+            #for a in standardLogTicks:
+            #    if a * majorTicks[-1] <= trueMax:
+            #        ticks.append(a * majorTicks[-1])
             ticks = []
-
-            standardLogTicks = [2, 3, 4, 5, 6, 7, 8, 9]
-
-            for a in standardLogTicks:
-                if a * majorTicks[0] / 10. >= trueMin:
-                    ticks.append(a * majorTicks[0] / 10.)
-
-            ticks += [a * x for a in standardLogTicks for x in majorTicks]
-
-            for a in standardLogTicks:
-                if a * majorTicks[-1] <= trueMax:
-                    ticks.append(a * majorTicks[-1])
+            for i in FrequencyList:
+                if i < trueMin:
+                    continue
+                elif i > trueMax:
+                    break
+                else:
+                    ticks.append(i)
+            ticks.sort()
         else:
             majorTickInterval = self.majorTickInterval
 
