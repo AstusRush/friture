@@ -1,6 +1,8 @@
 # Astus General Library Main File
 
-Version = "1.0.3"
+Version = "1.1.0"
+# Using Semantic Versioning 2.0.0 https://semver.org/
+version = Version
 Author = "Robin \'Astus\' Albers"
 """
     Copyright (C) 2020  Robin Albers
@@ -379,6 +381,14 @@ def cTimeFullStr(separator = None):
     else:
         TheFormat = separator.join(['%Y','%m','%d','%H','%M','%S'])
         return str(datetime.datetime.now().strftime(TheFormat))
+
+#endregion
+
+#region Shortcut Functions
+
+def advancedMode():
+    """Used to check whether the advanced mode is active in the application"""
+    return QtWidgets.QApplication.instance().advanced_mode
 
 #endregion
 
