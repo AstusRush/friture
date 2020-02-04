@@ -1,0 +1,39 @@
+v1.0.0: Initial Upload
++ Initial Upload
+
+v1.0.1: Fixes and LaTeX Context Menu
++ The LaTeX Widget now has a context menu to copy the LaTeX that is displayed
++ Added Focus Next signal to Table Widget
++ Fixed Table Widget
++ Made AGeColour import more flexible
++ Fixed "Colours" list in AGeColour
+
+v1.0.2: Permanent Clipboard
++ On Windows the clipboard is now set on OS level when the application exits
++ On all other platforms any clipboard managers are given a last chance to store the clipboard before the application exits
++ (The clipboard resetting on application exit is a DX11 and OS feature and is hard to circumvent)
+
+v1.0.3: Top Bar Improvements
++ NC now handles the displayed text, tool tip and flash which further simplifies the notification system and makes it more flexible
++ The advanced mode has been improved:
+++ alt+A is the application wide shortcut
+++ The top bar widget has an optional checkbox
++ The top bar widget error button now loads the last notifications on init
+++ If there was no previous notification the user is greeted by username
++ A Signal is now emitted after the font size has changed
+
+v1.1.0: Import Improvements
++ Added an __init__ to allow for:
+++ Import AGeLib
++++ Does the same as importing AGeMain
+++ from AGeLib import *
++++ Imports the most important things from AGeMain
+++ from AGeLib.exc import *
++++ Imports NC, common_exceptions and ExceptionOutput to allow for exception handling
++ advancedMode() can now be used to check if the advanced mode is active
++ The application now sets the style to fusion
++ AWWF now redirects most tool bar functions as it does with the menu bar
++ The Maximize Button of the TopBarWidget now changes its icon in more cases
++ AWWF now reimplements restoreState to set the frame and Maximize Button icon accordingly
++ AGeColour dark theme now has a colour for links that is more readable
+

@@ -24,6 +24,8 @@ import errno
 import platform
 import logging
 import logging.handlers
+from AGeLib.AGeColour import Dark as AstusDark
+from AGeLib import AGeMain
 
 from PyQt5 import QtCore
 # specifically import from PyQt5.QtGui and QWidgets for startup time improvement :
@@ -53,10 +55,11 @@ SMOOTH_DISPLAY_TIMER_PERIOD_MS = 10
 SLOW_TIMER_PERIOD_MS = 1000
 
 
-class Friture(QMainWindow, ):
+#class Friture(QMainWindow, ):
+class Friture(AGeMain.AWWF, ):
 
     def __init__(self):
-        QMainWindow.__init__(self)
+        super(Friture,self).__init__()
 
         self.logger = logging.getLogger(__name__)
 
@@ -337,7 +340,9 @@ def main():
         except:
             logger.error("Could not set the app model ID. If the plaftorm is older than Windows 7, this is normal.")
 
-    app = QApplication(sys.argv)
+    #app = QApplication(sys.argv)
+    app = AGeMain.Main_App(sys.argv)
+    app.setPalette(AstusDark()[0])
 
     if platform.system() == "Darwin":
         logger.info("Applying Mac OS-specific setup")

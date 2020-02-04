@@ -25,9 +25,11 @@ import OpenGL
 import friture.friture_rc
 import friture
 from friture.statisticswidget import StatisticsWidget
+import AGeLib
 
 aboutText = """
 <p> <b>Friture %s</b> (dated %s)</p>
+<p> Forked version modified by Robin \"Astus\" Albers.</p>
 <p> Friture is an application for real-time audio analysis.</p>
 <p> License is GPLv3.</p>
 <p> Homepage: <a href="http://friture.org">http://friture.org</a></p>
@@ -43,6 +45,7 @@ aboutText = """
         <li>Numpy %s</li>
         <li>Cython</li>
         <li>PyOpenGL %s</li>
+        <li>AGeLib %s</li>
 </ul>
 """ % (friture.__version__,
        friture.__releasedate__,
@@ -53,7 +56,8 @@ aboutText = """
        sounddevice.get_portaudio_version()[1],
        numpy.__version__,
        # Cython.__version__, #this pulls the whole Cython, makes PyInstaller think it needs all the dependencies, even IPython!
-       OpenGL.__version__)
+       OpenGL.__version__,
+       AGeLib.__version__)
 
 
 class About_Dialog(QtWidgets.QDialog):
