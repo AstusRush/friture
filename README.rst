@@ -19,3 +19,20 @@ The name *Friture* is a french word for *frying*, also used for *noise* in a sou
 See the `project homepage`_ for screenshots and more information.
 
 .. _`project homepage`: http://friture.org
+
+=======
+Fork Info
+=======
+On this Fork I have:
+
++ Changed the frequencies to notes
+
+  + The scale bars show the notes and C is labeled and clicking displays all note names
+
+    + The frequencies are still acessible by clicking on the plot
+
+  + I can think of very few reasons one would want the actual frequency (except for scientific work)
+
++ Changed the main window to use `AGeLib`_ for a prettier frame and a more relaxing grey colour that doesn't burn out your eyes
+
+.. _`AGeLib`: https://github.com/AstusRush/AGeLib
